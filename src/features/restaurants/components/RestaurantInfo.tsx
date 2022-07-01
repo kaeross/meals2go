@@ -2,8 +2,10 @@ import React from "react";
 
 import { StyleSheet, FlatList, View, Text } from "react-native";
 import { faker } from "@faker-js/faker";
-import { Button, Card, Paragraph, Title } from "react-native-paper";
+import { Card, Paragraph, Title } from "react-native-paper";
 import { Spacing } from "../../../utils/spacing";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { theme } from "../../../infrastructure/theme";
 
 type Restaurant = {
   name: string;
@@ -15,9 +17,17 @@ type Restaurant = {
   isClosedTemporarily: boolean;
 };
 
+type IconName = "restaurant" | "tapas";
+
+const iconType: IconName[] = ["restaurant", "tapas"];
+
+const getRandomIcon = () => {
+  return iconType[faker.datatype.number({ min: 0, max: 1 })];
+};
+
 const restaurantFactory = ({
   name = faker.random.words(1),
-  icon = "food",
+  icon = getRandomIcon(),
   photos = [faker.image.food()],
   address = faker.address.streetAddress(true),
   isOpenNow = true,
@@ -33,6 +43,16 @@ const restaurantFactory = ({
   isClosedTemporarily,
 });
 
+const Rating = ({ rating }: { rating: number }) => {
+  const starsCount = Math.round(rating);
+
+  const stars = new Array(starsCount)
+    .fill(null)
+    .map((_, idx) => <Ionicons key={idx} name="star" size={16} color="gold" />);
+
+  return <Paragraph>{stars}</Paragraph>;
+};
+
 const RestaurantCard = ({
   name,
   icon,
@@ -46,13 +66,14 @@ const RestaurantCard = ({
     <Card style={styles.card}>
       <Card.Cover key={name} source={{ uri: photos[0] }} />
       <Card.Content>
-        <Title>{name}</Title>
+        <Title selectionColor={theme.colors.brand}>
+          {name} <MaterialIcons name={icon} size={16} />
+        </Title>
+        <Rating rating={rating} />
         <Paragraph>{address}</Paragraph>
         <Paragraph>
           {isClosedTemporarily || !isOpenNow ? "Closed" : "Open"}
         </Paragraph>
-        <Paragraph>{rating}</Paragraph>
-        <Button icon={icon} />
       </Card.Content>
     </Card>
   );
@@ -104,10 +125,10 @@ export const RestaurantInfo = ({ searchQuery }: { searchQuery?: string }) => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    padding: Spacing.lg,
+    padding: theme.Spacing.lg,
     renderItem: "",
   },
   card: {
-    marginBottom: Spacing.lg,
+    marginBottom: theme.Spacing.lg,
   },
 });
