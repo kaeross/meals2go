@@ -1,6 +1,6 @@
 import { View, StyleSheet } from "react-native";
 import { Searchbar } from "react-native-paper";
-import { Spacing } from "../../../utils/spacing";
+import { theme } from "../../../infrastructure/theme";
 
 export const Search = ({
   onChangeSearch,
@@ -16,9 +16,9 @@ export const Search = ({
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Spacing.md,
-    paddingBottom: Spacing.md,
-    paddingLeft: Spacing.lg,
-    paddingRight: Spacing.lg,
+    paddingTop: theme.Spacing.md,
+    paddingBottom: theme.Spacing.md,
+    paddingLeft: theme.Spacing.lg,
+    paddingRight: theme.Spacing.lg,
   },
 });

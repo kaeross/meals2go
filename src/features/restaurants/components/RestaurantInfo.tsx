@@ -1,46 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { StyleSheet, FlatList, View, Text } from "react-native";
 import { faker } from "@faker-js/faker";
 import { Card, Paragraph, Title } from "react-native-paper";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { theme } from "../../../infrastructure/theme";
-
-type Restaurant = {
-  name: string;
-  icon: string;
-  photos: string[];
-  address: string;
-  isOpenNow: boolean;
-  rating: number;
-  isClosedTemporarily: boolean;
-};
-
-type IconName = "restaurant" | "tapas";
-
-const iconType: IconName[] = ["restaurant", "tapas"];
-
-const getRandomIcon = () => {
-  return iconType[faker.datatype.number({ min: 0, max: 1 })];
-};
-
-const restaurantFactory = ({
-  name = faker.random.words(1),
-  icon = getRandomIcon(),
-  photos = [faker.image.food()],
-  address = faker.address.streetAddress(true),
-  isOpenNow = true,
-  rating = faker.datatype.float({ min: 3, max: 5, precision: 0.1 }),
-  isClosedTemporarily = false,
-}: Partial<Restaurant> = {}) => ({
-  name,
-  icon,
-  photos,
-  address,
-  isOpenNow,
-  rating,
-  isClosedTemporarily,
-});
+import { restaurantService } from "../../../services/restaurants/restaurantsService";
+import { Restaurant } from "../../../services/types";
 
 const Rating = ({ rating }: { rating: number }) => {
   const starsCount = Math.round(rating);
@@ -62,13 +28,7 @@ const RestaurantCard = ({
   isClosedTemporarily,
 }: Restaurant) => {
   return (
-    <Card
-      style={styles.card}
-      accessible={true}
-      onPress={() => {
-        ReactNativeHapticFeedback.trigger("impactMedium");
-      }}
-    >
+    <Card style={styles.card} accessible={true}>
       <Card.Cover key={name} source={{ uri: photos[0] }} />
       <Card.Content>
         <Title selectionColor={theme.colors.brand}>
@@ -84,12 +44,30 @@ const RestaurantCard = ({
   );
 };
 
-const restaurants = new Array(25).fill(null).map(() => restaurantFactory());
-
 export const RestaurantInfo = ({ searchQuery }: { searchQuery?: string }) => {
-  const filteredRestaurants = restaurants.filter(
-    ({ name, address }) =>
-      !searchQuery || name.match(searchQuery) || address.match(searchQuery),
+  const [restaurants, setRestaurants] = useState([] as Restaurant[]);
+  const [filteredRestaurants, setFilteredRestaurants] = useState(
+    [] as Restaurant[]
+  );
+
+  restaurantService()
+    .then((result) => {
+      console.log(result);
+      setRestaurants(result);
+    })
+    .catch(() => setRestaurants([]));
+
+  useEffect(
+    () =>
+      setFilteredRestaurants(
+        restaurants.filter(
+          ({ name, address }) =>
+            !searchQuery ||
+            name.match(searchQuery) ||
+            address.match(searchQuery)
+        )
+      ),
+    [restaurants, searchQuery]
   );
 
   return filteredRestaurants.length ? (
