@@ -3,7 +3,8 @@ import { Search } from "./Search";
 
 describe("Search", () => {
   it("should render the search component", async () => {
-    render(<Search />);
+    const searchSpy = jest.fn();
+    render(<Search onChangeSearch={searchSpy} />);
 
     expect(await screen.findByText("search")).toBeTruthy();
   });

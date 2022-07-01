@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { SafeAreaView, StyleSheet, StatusBar } from "react-native";
 import { Provider } from "react-native-paper";
+import { colors } from "../../../infrastructure/theme/colors";
 import { RestaurantInfo } from "../components/RestaurantInfo";
 import { Search } from "../components/Search";
 
@@ -24,6 +25,6 @@ const styles = StyleSheet.create({
     paddingTop: StatusBar.currentHeight,
     flex: 1,
     flexDirection: "column",
-    // backgroundColor: "#2e2e2e",
+    backgroundColor: colors.bg.secondary,
   },
 });
