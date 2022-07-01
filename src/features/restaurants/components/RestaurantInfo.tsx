@@ -3,7 +3,6 @@ import React from "react";
 import { StyleSheet, FlatList, View, Text } from "react-native";
 import { faker } from "@faker-js/faker";
 import { Card, Paragraph, Title } from "react-native-paper";
-import { Spacing } from "../../../utils/spacing";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { theme } from "../../../infrastructure/theme";
 
@@ -63,7 +62,13 @@ const RestaurantCard = ({
   isClosedTemporarily,
 }: Restaurant) => {
   return (
-    <Card style={styles.card}>
+    <Card
+      style={styles.card}
+      accessible={true}
+      onPress={() => {
+        ReactNativeHapticFeedback.trigger("impactMedium");
+      }}
+    >
       <Card.Cover key={name} source={{ uri: photos[0] }} />
       <Card.Content>
         <Title selectionColor={theme.colors.brand}>
@@ -79,7 +84,7 @@ const RestaurantCard = ({
   );
 };
 
-const restaurants = new Array(5).fill(null).map(() => restaurantFactory());
+const restaurants = new Array(25).fill(null).map(() => restaurantFactory());
 
 export const RestaurantInfo = ({ searchQuery }: { searchQuery?: string }) => {
   const filteredRestaurants = restaurants.filter(

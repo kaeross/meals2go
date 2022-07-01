@@ -19,9 +19,6 @@ export const RestaurantsScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: StatusBar.currentHeight,
-    flex: 1,
-    flexDirection: "column",
     backgroundColor: colors.bg.secondary,
   },
 });
