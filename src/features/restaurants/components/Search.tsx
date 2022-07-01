@@ -1,7 +1,12 @@
 import { View, StyleSheet } from "react-native";
 import { Searchbar } from "react-native-paper";
+import { Spacing } from "../../../utils/spacing";
 
-export const Search = ({ onChangeSearch }: { onChangeSearch: (query: string) => void }) => {
+export const Search = ({
+  onChangeSearch,
+}: {
+  onChangeSearch: (query: string) => void;
+}) => {
   return (
     <View style={styles.container}>
       <Searchbar placeholder="Search..." onChangeText={onChangeSearch} />
@@ -11,6 +16,9 @@ export const Search = ({ onChangeSearch }: { onChangeSearch: (query: string) => 
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
+    paddingTop: Spacing.md,
+    paddingBottom: Spacing.md,
+    paddingLeft: Spacing.lg,
+    paddingRight: Spacing.lg,
   },
 });

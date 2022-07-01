@@ -24,6 +24,6 @@ const styles = StyleSheet.create({
     paddingTop: StatusBar.currentHeight,
     flex: 1,
     flexDirection: "column",
-    backgroundColor: "#2e2e2e",
+    // backgroundColor: "#2e2e2e",
   },
 });

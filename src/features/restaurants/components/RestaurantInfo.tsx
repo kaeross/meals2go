@@ -3,6 +3,7 @@ import React from "react";
 import { StyleSheet, FlatList, View, Text } from "react-native";
 import { faker } from "@faker-js/faker";
 import { Button, Card, Paragraph, Title } from "react-native-paper";
+import { Spacing } from "../../../utils/spacing";
 
 type Restaurant = {
   name: string;
@@ -15,7 +16,7 @@ type Restaurant = {
 };
 
 const restaurantFactory = ({
-  name = faker.random.words(2),
+  name = faker.random.words(1),
   icon = "food",
   photos = [faker.image.food()],
   address = faker.address.streetAddress(true),
@@ -103,10 +104,10 @@ export const RestaurantInfo = ({ searchQuery }: { searchQuery?: string }) => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    padding: 16,
+    padding: Spacing.lg,
     renderItem: "",
   },
   card: {
-    marginBottom: 16,
+    marginBottom: Spacing.lg,
   },
 });
