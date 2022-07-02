@@ -3,14 +3,16 @@ export type GeoLocation = {
   lng: number;
 };
 
-export type LocationResults = Record<string, unknown> & {
-  geometry: {
-    location: GeoLocation;
-    viewport: {
-      northeast: GeoLocation;
-      southwest: GeoLocation;
-    };
+export type Geometry = {
+  location: GeoLocation;
+  viewport: {
+    northeast: GeoLocation;
+    southwest: GeoLocation;
   };
+};
+
+export type LocationResults = Record<string, unknown> & {
+  geometry: Geometry;
   icon?: string;
   name: string;
   opening_hours?: {
@@ -46,4 +48,12 @@ export type Restaurant = {
   isOpenNow?: boolean;
   rating?: number;
   isClosedTemporarily?: boolean;
+};
+
+export type GeoLocations = {
+  [locationKey: string]: {
+    results: {
+      geometry: Geometry;
+    }[];
+  };
 };
