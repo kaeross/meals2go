@@ -8,7 +8,13 @@ export type AppContext = {
   error: unknown;
 };
 
-export const RestaurantsContext = createContext<AppContext | null>(null);
+const initialContext = {
+  isLoading: false,
+  restaurants: [],
+  error: null,
+};
+
+export const RestaurantsContext = createContext<AppContext>(initialContext);
 
 export const RestaurantsContextProvider = ({
   children,

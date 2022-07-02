@@ -5,7 +5,7 @@ import { Restaurant } from "../services/types";
 export const useRestaurantsQuery = (location?: string) => {
   return useQuery<Restaurant[]>(["restaurants", location], () =>
     restaurantService(location)
-      .then((restaurants) => {
+      .then(async (restaurants) => {
         console.log(restaurants);
         return restaurants;
       })

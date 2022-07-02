@@ -8,10 +8,12 @@ export const restaurantsRequest = async (
   return new Promise((resolve, reject) => {
     const mock = mocks[location];
 
-    if (!mock) {
-      reject("not found");
-    }
-    resolve(mock);
+    setTimeout(() => {
+      if (!mock) {
+        reject("not found");
+      }
+      resolve(mock);
+    }, 1000);
   });
 };
 
@@ -21,6 +23,7 @@ export const restaurantService = async (
   try {
     // Make request, transform request
     const response = await restaurantsRequest(location);
+
     return requestTransformer(response.results);
   } catch (error) {
     throw error;

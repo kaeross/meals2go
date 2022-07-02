@@ -1,51 +1,41 @@
 import React, { useContext, useState } from "react";
 import { SafeAreaView, StyleSheet, View, Text } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
+import { theme } from "../../../infrastructure/theme";
 import { colors } from "../../../infrastructure/theme/colors";
-import {
-  RestaurantsContext,
-  RestaurantsContextProvider,
-} from "../../../services/restaurants/restaurantsContext";
+import { RestaurantsContext } from "../../../services/restaurants/restaurantsContext";
 import { Restaurant } from "../../../services/types";
 import { RestaurantInfo } from "../components/RestaurantInfo";
 import { Search } from "../components/Search";
 
 export const RestaurantsScreen = () => {
-  const restaurantContext = useContext(RestaurantsContext);
-  const [filteredRestaurants, setFilteredRestaurants] = useState<Restaurant[]>(
-    restaurantContext?.restaurants ?? []
-  );
+  const { isLoading, error, restaurants } = useContext(RestaurantsContext);
+  const [query, setQuery] = useState<string>("");
 
-  if (!restaurantContext || restaurantContext?.isLoading) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
+  if (error) {
+    console.error(error);
   }
 
-  if (restaurantContext?.error) {
-    console.error(restaurantContext);
-    return (
-      <View>
-        <Text>Oops something went wrong</Text>
-      </View>
-    );
-  }
-
-  const filterRestaurants = (query: string) => {
+  const getFilteredRestaurants = () => {
     const regex = new RegExp(query, "i");
 
-    const filtered = restaurantContext.restaurants.filter(
-      ({ name }) => !query || name.match(regex)
-    );
-
-    setFilteredRestaurants(filtered);
+    return restaurants.filter(({ name }) => !query || name.match(regex));
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <Search onChangeSearch={filterRestaurants} />
-      <RestaurantInfo restaurants={filteredRestaurants} />
+      <Search onChangeSearch={setQuery} />
+      {restaurants.length ? (
+        <RestaurantInfo restaurants={getFilteredRestaurants()} />
+      ) : isLoading ? (
+        <View style={styles.loader}>
+          <ActivityIndicator size={50} />
+        </View>
+      ) : (
+        <View style={styles.helpText}>
+          <Text>{isLoading ? "Loading..." : "Oops something went wrong"}</Text>
+        </View>
+      )}
     </SafeAreaView>
   );
 };
@@ -53,5 +43,15 @@ export const RestaurantsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.bg.secondary,
+    flex: 1,
+  },
+  helpText: {
+    padding: theme.Spacing.lg,
+    alignContent: "center",
+  },
+  loader: {
+    flex: 0.5,
+    justifyContent: "center",
+    alignContent: "center",
   },
 });
