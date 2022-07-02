@@ -9,6 +9,7 @@ import { Lato_400Regular } from "@expo-google-fonts/lato";
 import { NavigationContainer } from "@react-navigation/native";
 import { Tabs } from "./src/features/restaurants/components/Tabs";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { RestaurantsContextProvider } from "./src/services/restaurants/restaurantsContext";
 
 const queryClient = new QueryClient();
 
@@ -35,9 +36,11 @@ export default function App() {
       }}
     >
       <QueryClientProvider client={queryClient}>
-        <NavigationContainer>
-          <Tabs />
-        </NavigationContainer>
+        <RestaurantsContextProvider>
+          <NavigationContainer>
+            <Tabs />
+          </NavigationContainer>
+        </RestaurantsContextProvider>
       </QueryClientProvider>
     </Provider>
   );
