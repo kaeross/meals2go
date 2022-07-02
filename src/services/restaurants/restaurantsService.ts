@@ -1,6 +1,5 @@
 import { LocationResponse, LocationResults, Restaurant } from "../types";
-import { mocks } from "./mock";
-import camelize, { Camelize } from "camelize-ts";
+import { mockImages, mocks } from "./mock";
 import { faker } from "@faker-js/faker";
 
 export const restaurantsRequest = async (
@@ -22,10 +21,7 @@ export const restaurantService = async (
   try {
     // Make request, transform request
     const response = await restaurantsRequest(location);
-
     return requestTransformer(response.results);
-
-    // console.log(transformedResponse);
   } catch (error) {
     throw error;
   }
@@ -39,24 +35,29 @@ const getRandomIcon = () => {
   return iconType[faker.datatype.number({ min: 0, max: 1 })];
 };
 
+const getRandomPhoto = () => {
+  return mockImages[
+    faker.datatype.number({ min: 0, max: mockImages.length - 1 })
+  ];
+};
+
 const requestTransformer = (locations: LocationResults[]): Restaurant[] => {
   return locations.map((location): Restaurant => {
-    const {
-      name,
-      photos = [],
-      vicinity,
-      openingHours,
-      rating,
-      businessStatus,
-    } = camelize(location);
+    const { name, photos, vicinity, openingHours, rating, businessStatus } =
+      location;
+
+    const photoRefs = photos?.map(({ photo_reference }) =>
+      photo_reference ? photo_reference : getRandomPhoto()
+    ) ?? [getRandomPhoto()];
 
     return {
       name,
       icon: getRandomIcon(),
       // Typecasting as any because camelize typing doesn't work with nesting
-      photos: photos.map(({ photoReference }: any) => photoReference),
+      photos: photoRefs.length ? photoRefs : mockImages,
       address: vicinity ?? "",
-      isOpenNow: (openingHours as any as Record<string, boolean>).openNow,
+      isOpenNow:
+        (openingHours as any as Record<string, boolean>)?.openNow ?? true,
       rating,
       isClosedTemporarily: businessStatus === "CLOSED_TEMPORARILY",
     };

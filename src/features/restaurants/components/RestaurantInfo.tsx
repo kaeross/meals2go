@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import { StyleSheet, FlatList, View, Text } from "react-native";
-import { faker } from "@faker-js/faker";
 import { Card, Paragraph, Title } from "react-native-paper";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { theme } from "../../../infrastructure/theme";
-import { restaurantService } from "../../../services/restaurants/restaurantsService";
 import { Restaurant } from "../../../services/types";
+import { useRestaurantsQuery } from "../../../hooks/useRestaurantsQuery";
 
 const Rating = ({ rating }: { rating: number }) => {
   const starsCount = Math.round(rating);
@@ -45,32 +44,18 @@ const RestaurantCard = ({
 };
 
 export const RestaurantInfo = ({ searchQuery }: { searchQuery?: string }) => {
-  const [restaurants, setRestaurants] = useState([] as Restaurant[]);
-  const [filteredRestaurants, setFilteredRestaurants] = useState(
-    [] as Restaurant[]
+  const { isLoading, data: restaurants } = useRestaurantsQuery();
+
+  // const [filteredRestaurants, setFilteredRestaurants] = useState(
+  //   [] as Restaurant[]
+  // );
+
+  const filteredRestaurants = restaurants?.filter(
+    ({ name, address }) =>
+      !searchQuery || name.match(searchQuery) || address.match(searchQuery)
   );
 
-  restaurantService()
-    .then((result) => {
-      console.log(result);
-      setRestaurants(result);
-    })
-    .catch(() => setRestaurants([]));
-
-  useEffect(
-    () =>
-      setFilteredRestaurants(
-        restaurants.filter(
-          ({ name, address }) =>
-            !searchQuery ||
-            name.match(searchQuery) ||
-            address.match(searchQuery)
-        )
-      ),
-    [restaurants, searchQuery]
-  );
-
-  return filteredRestaurants.length ? (
+  return !isLoading && filteredRestaurants?.length ? (
     <FlatList
       style={styles.container}
       renderItem={({

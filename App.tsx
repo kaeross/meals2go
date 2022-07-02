@@ -8,6 +8,9 @@ import { Oswald_400Regular } from "@expo-google-fonts/oswald";
 import { Lato_400Regular } from "@expo-google-fonts/lato";
 import { NavigationContainer } from "@react-navigation/native";
 import { Tabs } from "./src/features/restaurants/components/Tabs";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 export default function App() {
   const [oswaldLoaded, latoLoaded] = useFonts({
@@ -31,9 +34,11 @@ export default function App() {
         fonts: configureFonts(fontConfig),
       }}
     >
-      <NavigationContainer>
-        <Tabs />
-      </NavigationContainer>
+      <QueryClientProvider client={queryClient}>
+        <NavigationContainer>
+          <Tabs />
+        </NavigationContainer>
+      </QueryClientProvider>
     </Provider>
   );
 }

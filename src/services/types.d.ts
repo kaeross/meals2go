@@ -11,6 +11,7 @@ export type LocationResults = Record<string, unknown> & {
       southwest: GeoLocation;
     };
   };
+  icon?: string;
   name: string;
   opening_hours?: {
     open_now: boolean;
@@ -42,7 +43,7 @@ export type Restaurant = {
   icon: string;
   photos: string[];
   address: string;
-  isOpenNow: boolean;
+  isOpenNow?: boolean;
   rating?: number;
-  isClosedTemporarily: boolean;
+  isClosedTemporarily?: boolean;
 };
