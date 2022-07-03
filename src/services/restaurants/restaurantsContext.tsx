@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useRestaurantsQuery } from "../../hooks/useRestaurantsQuery";
 import { LocationsContext } from "../locations/locationsContext";
-import { Restaurant } from "../types";
+import { Restaurant, GeoLocation } from "../types";
 
 export type AppContext = {
   restaurants: Restaurant[];

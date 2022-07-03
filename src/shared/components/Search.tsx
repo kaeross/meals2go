@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { Searchbar } from "react-native-paper";
-import { theme } from "../../../infrastructure/theme";
-import { LocationsContext } from "../../../services/locations/locationsContext";
+import { theme } from "../../infrastructure/theme";
+import { LocationsContext } from "../../services/locations/locationsContext";
 
 export const Search = ({
   onChangeSearch,

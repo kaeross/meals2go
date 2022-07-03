@@ -11,7 +11,7 @@ export type Geometry = {
   };
 };
 
-export type LocationResults = Record<string, unknown> & {
+export type RestaurantResults = Record<string, unknown> & {
   geometry: Geometry;
   icon?: string;
   name: string;
@@ -33,10 +33,10 @@ export type LocationResults = Record<string, unknown> & {
   business_status?: "OPERATIONAL" | "CLOSED_TEMPORARILY" | string;
 };
 
-export type LocationResponse = {
+export type RestaurantResponse = {
   html_attributions: unknown[];
   next_page_token: string;
-  results: LocationResults[];
+  results: RestaurantResults[];
   status: string;
 };
 

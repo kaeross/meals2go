@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { RestaurantsScreen } from "../screens/RestaurantsScreen";
-import { MapScreen } from "../screens/MapScreen";
-import { SettingsScreen } from "../screens/SettingsScreen";
+import { RestaurantsScreen } from "../../features/restaurants/screens/RestaurantsScreen";
+import { MapScreen } from "../../features/map/screens/MapScreen";
+import { SettingsScreen } from "../../features/restaurants/screens/SettingsScreen";
 import { MaterialIcons } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();

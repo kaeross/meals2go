@@ -2,9 +2,9 @@ import antwerp from "./antwerp.json";
 import chicago from "./chicago.json";
 import toronto from "./toronto.json";
 import san_francisco from "./san_francisco.json";
-import { LocationResponse } from "../../types";
+import { RestaurantResponse } from "../../types";
 
-export const mocks: Record<string, LocationResponse> = {
+export const mocks: Record<string, RestaurantResponse> = {
   "51.219448,4.402464": antwerp,
   "43.653225,-79.383186": toronto,
   "41.878113,-87.629799": chicago,

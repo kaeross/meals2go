@@ -7,7 +7,7 @@ import { useFonts } from "expo-font";
 import { Oswald_400Regular } from "@expo-google-fonts/oswald";
 import { Lato_400Regular } from "@expo-google-fonts/lato";
 import { NavigationContainer } from "@react-navigation/native";
-import { Tabs } from "./src/features/restaurants/components/Tabs";
+import { Tabs } from "./src/shared/components/Tabs";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { RestaurantsContextProvider } from "./src/services/restaurants/restaurantsContext";
 import { LocationsContextProvider } from "./src/services/locations/locationsContext";

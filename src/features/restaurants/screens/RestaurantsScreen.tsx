@@ -5,7 +5,7 @@ import { theme } from "../../../infrastructure/theme";
 import { colors } from "../../../infrastructure/theme/colors";
 import { RestaurantsContext } from "../../../services/restaurants/restaurantsContext";
 import { RestaurantInfo } from "../components/RestaurantInfo";
-import { Search } from "../components/Search";
+import { Search } from "../../../shared/components/Search";
 
 export const RestaurantsScreen = () => {
   const {
