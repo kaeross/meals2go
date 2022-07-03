@@ -3,9 +3,7 @@ import { SafeAreaView, StyleSheet, View, Text } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import { theme } from "../../../infrastructure/theme";
 import { colors } from "../../../infrastructure/theme/colors";
-import { LocationsContext } from "../../../services/locations/locationsContext";
 import { RestaurantsContext } from "../../../services/restaurants/restaurantsContext";
-import { GeoLocation } from "../../../services/types";
 import { RestaurantInfo } from "../components/RestaurantInfo";
 import { Search } from "../components/Search";
 
