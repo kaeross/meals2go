@@ -32,7 +32,7 @@ const RestaurantCard = ({
         <Title selectionColor={theme.colors.brand}>
           {name} <MaterialIcons name={icon} size={16} />
         </Title>
-        <Rating rating={rating} />
+        {rating && <Rating rating={rating} />}
         <Paragraph>{address}</Paragraph>
         <Paragraph>
           {isClosedTemporarily || !isOpenNow ? "Closed" : "Open"}

@@ -3,17 +3,23 @@ import { SafeAreaView, StyleSheet, View, Text } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import { theme } from "../../../infrastructure/theme";
 import { colors } from "../../../infrastructure/theme/colors";
+import { LocationsContext } from "../../../services/locations/locationsContext";
 import { RestaurantsContext } from "../../../services/restaurants/restaurantsContext";
-import { Restaurant } from "../../../services/types";
+import { GeoLocation } from "../../../services/types";
 import { RestaurantInfo } from "../components/RestaurantInfo";
 import { Search } from "../components/Search";
 
 export const RestaurantsScreen = () => {
-  const { isLoading, error, restaurants } = useContext(RestaurantsContext);
+  const {
+    isLoading: isRestaurantsLoading,
+    error: restaurantsError,
+    restaurants,
+  } = useContext(RestaurantsContext);
+
   const [query, setQuery] = useState<string>("");
 
-  if (error) {
-    console.error(error);
+  if (restaurantsError) {
+    console.error(restaurantsError);
   }
 
   const getFilteredRestaurants = () => {
@@ -27,13 +33,15 @@ export const RestaurantsScreen = () => {
       <Search onChangeSearch={setQuery} />
       {restaurants.length ? (
         <RestaurantInfo restaurants={getFilteredRestaurants()} />
-      ) : isLoading ? (
+      ) : isRestaurantsLoading ? (
         <View style={styles.loader}>
           <ActivityIndicator size={50} />
         </View>
       ) : (
         <View style={styles.helpText}>
-          <Text>{isLoading ? "Loading..." : "Oops something went wrong"}</Text>
+          <Text>
+            {isRestaurantsLoading ? "Loading..." : "Oops something went wrong"}
+          </Text>
         </View>
       )}
     </SafeAreaView>

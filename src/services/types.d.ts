@@ -50,10 +50,9 @@ export type Restaurant = {
   isClosedTemporarily?: boolean;
 };
 
-export type GeoLocations = {
-  [locationKey: string]: {
-    results: {
-      geometry: Geometry;
-    }[];
-  };
+export type GeoLocationResults = {
+  results: {
+    geometry: Geometry;
+  }[];
+  status?: "OK";
 };

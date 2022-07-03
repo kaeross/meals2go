@@ -1,4 +1,6 @@
-export const locations = {
+import { GeoLocationResults } from "../../types";
+
+export const locations: Record<string, GeoLocationResults> = {
   antwerp: {
     results: [
       {

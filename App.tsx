@@ -10,6 +10,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { Tabs } from "./src/features/restaurants/components/Tabs";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { RestaurantsContextProvider } from "./src/services/restaurants/restaurantsContext";
+import { LocationsContextProvider } from "./src/services/locations/locationsContext";
 
 const queryClient = new QueryClient();
 
@@ -36,11 +37,13 @@ export default function App() {
       }}
     >
       <QueryClientProvider client={queryClient}>
-        <RestaurantsContextProvider>
-          <NavigationContainer>
-            <Tabs />
-          </NavigationContainer>
-        </RestaurantsContextProvider>
+        <LocationsContextProvider>
+          <RestaurantsContextProvider>
+            <NavigationContainer>
+              <Tabs />
+            </NavigationContainer>
+          </RestaurantsContextProvider>
+        </LocationsContextProvider>
       </QueryClientProvider>
     </Provider>
   );

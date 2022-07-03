@@ -1,5 +1,6 @@
-import React, { createContext } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useRestaurantsQuery } from "../../hooks/useRestaurantsQuery";
+import { LocationsContext } from "../locations/locationsContext";
 import { Restaurant } from "../types";
 
 export type AppContext = {
@@ -21,7 +22,17 @@ export const RestaurantsContextProvider = ({
 }: {
   children: JSX.Element | JSX.Element[];
 }): JSX.Element => {
-  const { isLoading, data, error } = useRestaurantsQuery();
+  const [locationQuery, setLocationQuery] = useState<string>();
+  const { isLoading, data, error } = useRestaurantsQuery(locationQuery);
+
+  const { location } = useContext(LocationsContext);
+
+  useEffect(() => {
+    console.log({ location });
+    if (location) {
+      setLocationQuery(geoToLocationString(location));
+    }
+  }, [location]);
 
   return (
     <RestaurantsContext.Provider
@@ -35,3 +46,5 @@ export const RestaurantsContextProvider = ({
     </RestaurantsContext.Provider>
   );
 };
+
+const geoToLocationString = ({ lat, lng }: GeoLocation) => `${lat},${lng}`;
