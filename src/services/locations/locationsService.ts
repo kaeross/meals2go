@@ -1,4 +1,4 @@
-import { GeoLocation, GeoLocationResults } from "../types";
+import { GeoLocationResults, Geometry } from "../types";
 import { locations as mocks } from "./mock";
 
 export const locationsRequest = async (
@@ -29,14 +29,12 @@ export const locationService = async (location = "antwerp") => {
 
 const requestTransformer = (
   locationResults: GeoLocationResults["results"]
-): GeoLocation => {
-  const {
-    geometry: { location },
-  } = locationResults[0];
+): Geometry => {
+  const { geometry } = locationResults[0];
 
-  if (!location) {
+  if (!geometry) {
     throw new Error("Could not get location data");
   }
 
-  return location;
+  return geometry;
 };

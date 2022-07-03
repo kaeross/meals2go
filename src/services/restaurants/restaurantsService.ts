@@ -1,10 +1,10 @@
-import { LocationResponse, LocationResults, Restaurant } from "../types";
+import { RestaurantResults, RestaurantResponse, Restaurant } from "../types";
 import { mockImages, mocks } from "./mock";
 import { faker } from "@faker-js/faker";
 
 export const restaurantsRequest = async (
   location: string
-): Promise<LocationResponse> => {
+): Promise<RestaurantResponse> => {
   return new Promise((resolve, reject) => {
     const mock = mocks[location];
 
@@ -44,10 +44,17 @@ const getRandomPhoto = () => {
   ];
 };
 
-const requestTransformer = (locations: LocationResults[]): Restaurant[] => {
+const requestTransformer = (locations: RestaurantResults[]): Restaurant[] => {
   return locations.map((location): Restaurant => {
-    const { name, photos, vicinity, openingHours, rating, businessStatus } =
-      location;
+    const {
+      name,
+      photos,
+      vicinity,
+      openingHours,
+      rating,
+      businessStatus,
+      geometry,
+    } = location;
 
     const photoRefs = photos?.map(({ photo_reference }) =>
       photo_reference ? photo_reference : getRandomPhoto()
@@ -63,6 +70,7 @@ const requestTransformer = (locations: LocationResults[]): Restaurant[] => {
         (openingHours as any as Record<string, boolean>)?.openNow ?? true,
       rating,
       isClosedTemporarily: businessStatus === "CLOSED_TEMPORARILY",
+      geometry,
     };
   });
 };
